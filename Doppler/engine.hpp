@@ -7,12 +7,12 @@
 
 class Engine {
 private:
-  static constexpr std::string_view root_path{ "C\\Usres\\Suika\\Desktop\\a" };
+  static constexpr std::string_view root_path{ "C:\\Users\\Suika\\Desktop\\a" };
 
   static constexpr int   font_pts      = 32;
   static constexpr float sound_speed   = 50.0f;
   static constexpr auto  rect_dim      = Vector(16, 16);
-  static constexpr float max_volume    = 0.3f;
+  static constexpr float max_volume    = 0.4f;
   static constexpr float pull_force    = 4.0e-5f;
   static constexpr float gravity       = 5.0e-3f;
   static constexpr float source_damper = 2.0e-3f;
