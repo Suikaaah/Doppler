@@ -10,4 +10,5 @@ Include: minimp3, SDL2 and SDL2_ttf
 Link: SDL2 and SDL2_ttf
 
 ## Usage
-Change root_path in engine.hpp and it should work.
+* Change "root_path" in engine.hpp.
+* Put "SDL2.dll", "SDL2_ttf.dll" and a font file named "arial.ttf" in the same directory as Doppler.exe.
