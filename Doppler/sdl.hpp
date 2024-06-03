@@ -17,12 +17,13 @@ private:
   bool          m_ttf_inited{};
   SDL_Window*   m_window{};
   SDL_Renderer* m_renderer{};
-  Timer         m_timer_tick{100}, m_timer_event{1'000'000 / 240};
+  Timer         m_timer_tick{100}, m_timer_event{1'000'000 / fps};
 
   void cleanup() noexcept;
 
 public:
   static constexpr auto resolution = Vector(1600, 900);
+  static constexpr int  fps        = 240;
 
   SDL();
   SDL(const SDL&)            = delete;

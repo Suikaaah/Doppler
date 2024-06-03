@@ -31,12 +31,7 @@ void Audio::audio_callback(void* userdata, Uint8* byte_stream, int stream_bytes)
     const auto offset_stream = i * 2;
     const auto offset_buffer = static_cast<std::size_t>(static_cast<float>(i) * ff) * info.channels;
     const auto pan_function  = [pan](bool left) {
-      if ((0.0f < pan && left) || (pan < 0.0f && !left)) {
-        return -0.75f * pan * pan + 1.0f;
-      }
-      else {
-        return 1.0f;
-      }
+      return std::min((left ? -1.0f : 1.0f) * 0.75f * pan, 0.0f) + 1.0f;
     };
     stream[offset_stream + 0]
       = buffer[offset_buffer + 0]                            * volume * pan_function(true);

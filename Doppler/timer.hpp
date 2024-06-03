@@ -12,6 +12,7 @@ private:
 public:
   constexpr explicit Timer(int delay) noexcept : m_delay{delay} {}
 
+  void set_delay(int delay) noexcept;
   void update();
   void sleep() const;
   bool is_expired() const;

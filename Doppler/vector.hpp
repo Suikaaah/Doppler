@@ -54,6 +54,10 @@ struct Vector {
     return [&lhs, &rhs] SEQ( return ((lhs[Seq] * rhs[Seq]) + ...); )
   }
 
+  static constexpr auto random(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept {
+    return [&lhs, &rhs] SEQ( return (Vector<T, N>{random_scalar(lhs[Seq], rhs[Seq])...}); )
+  }
+
   auto length() const noexcept {
     return std::sqrt(dot(*this, *this));
   }

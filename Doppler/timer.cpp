@@ -2,6 +2,10 @@
 
 #include <thread>
 
+void Timer::set_delay(int delay) noexcept {
+  m_delay = delay;
+}
+
 void Timer::update() {
   m_ref = Clock::now();
 
