@@ -4,11 +4,15 @@
 #include "util.hpp"
 
 Font::Font(Font&& other) noexcept {
-  m_font = std::exchange(other.m_font, nullptr);
+  *this = std::move(other);
 }
 
 Font& Font::operator=(Font&& other) noexcept {
-  m_font = std::exchange(other.m_font, nullptr);
+  if (this != &other) {
+    std::swap(m_font, other.m_font);
+    other.cleanup();
+  }
+
   return *this;
 }
 

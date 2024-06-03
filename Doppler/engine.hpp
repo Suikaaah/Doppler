@@ -30,12 +30,5 @@ private:
   void update();
 
 public:
-  Engine()                         = default;
-  Engine(const Engine&)            = delete;
-  Engine(Engine&&)                 = delete;
-  Engine& operator=(const Engine&) = delete;
-  Engine& operator=(Engine&&)      = delete;
-  ~Engine() noexcept               = default;
-
   void run();
 };

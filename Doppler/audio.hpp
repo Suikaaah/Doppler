@@ -12,11 +12,11 @@ private:
   void cleanup() noexcept;
 
 public:
-  constexpr Audio() noexcept     = default;
+  Audio() noexcept               = default;
   Audio(const Audio&)            = delete;
-  Audio(Audio&&)                 = delete;
+  Audio(Audio&& other) noexcept;
   Audio& operator=(const Audio&) = delete;
-  Audio& operator=(Audio&&)      = delete;
+  Audio& operator=(Audio&& other) noexcept;
   ~Audio() noexcept;
 
   void play(std::string_view filename);

@@ -19,15 +19,6 @@ void SDL::cleanup() noexcept {
   }
 }
 
-void SDL::move(SDL& other) noexcept {
-  m_inited     = std::exchange(other.m_inited, false);
-  m_ttf_inited = std::exchange(other.m_ttf_inited, false);
-  m_window     = std::exchange(other.m_window, nullptr);
-  m_renderer   = std::exchange(other.m_renderer, nullptr);
-  std::swap(m_timer_tick , other.m_timer_tick);
-  std::swap(m_timer_event, other.m_timer_event);
-}
-
 SDL::SDL() {
   m_inited = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_VIDEO) == 0;
   if (!m_inited) {
@@ -54,11 +45,20 @@ SDL::SDL() {
 }
 
 SDL::SDL(SDL&& other) noexcept {
-  move(other);
+  *this = std::move(other);
 }
 
 SDL& SDL::operator=(SDL&& other) noexcept {
-  move(other);
+  if (this != &other) {
+    std::swap(m_inited     , other.m_inited);
+    std::swap(m_ttf_inited , other.m_ttf_inited);
+    std::swap(m_window     , other.m_window);
+    std::swap(m_renderer   , other.m_renderer);
+    std::swap(m_timer_tick , other.m_timer_tick);
+    std::swap(m_timer_event, other.m_timer_event);
+    other.cleanup();
+  }
+
   return *this;
 }
 

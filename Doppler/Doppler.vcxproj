@@ -142,6 +142,7 @@
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="playback_state.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.hpp" />

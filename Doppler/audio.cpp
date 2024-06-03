@@ -6,9 +6,9 @@
 void Audio::audio_callback(void* userdata, Uint8* byte_stream, int stream_bytes) {
   static std::array<float, PlaybackState::chunk_size> buffer;
 
-  const auto stream        = reinterpret_cast<float*>(byte_stream);
-  const auto stream_length = stream_bytes / sizeof(float);
-  auto&      ps            = *static_cast<PlaybackState*>(userdata);
+  const auto  stream        = reinterpret_cast<float*>(byte_stream);
+  const auto  stream_length = stream_bytes / sizeof(float);
+  auto&       ps            = *static_cast<PlaybackState*>(userdata);
 
   if (ps.get_reached_eof()) {
     std::fill_n(stream, stream_length, 0.0f);
@@ -24,9 +24,9 @@ void Audio::audio_callback(void* userdata, Uint8* byte_stream, int stream_bytes)
 
   for (std::size_t i{}; i < copy_length_per_ch; ++i) {
     const auto t      = static_cast<float>(i) / static_cast<float>(copy_length_per_ch);
-    const auto ff     = interpolate(ps.m_ff_b, t);
-    const auto pan    = interpolate(ps.m_pan_b, t);
-    const auto volume = interpolate(ps.m_volume_b, t);
+    const auto ff     = interpolate(ps.get_ff_b()    , t);
+    const auto pan    = interpolate(ps.get_pan_b()   , t);
+    const auto volume = interpolate(ps.get_volume_b(), t);
 
     const auto offset_stream = i * 2;
     const auto offset_buffer = static_cast<std::size_t>(static_cast<float>(i) * ff) * info.channels;
@@ -55,6 +55,20 @@ void Audio::cleanup() noexcept {
     SDL_CloseAudioDevice(m_device);
     m_device = 0;
   }
+}
+
+Audio::Audio(Audio&& other) noexcept {
+  *this = std::move(other);
+}
+
+Audio& Audio::operator=(Audio&& other) noexcept {
+  if (this != &other) {
+    std::swap(m_ps    , other.m_ps);
+    std::swap(m_device, other.m_device);
+    other.cleanup();
+  }
+
+  return *this;
 }
 
 Audio::~Audio() noexcept {

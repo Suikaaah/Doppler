@@ -86,7 +86,7 @@ void Engine::update() {
   m_source_acc =  1.0e-4f * ((m_mouse_pos.convert<float>() - m_source_pos) - 100.0f * m_source_vel);
   m_source_vel += m_source_acc;
   m_source_pos += m_source_vel;
-  static constexpr float max_volume = 0.3f;
+  static constexpr float max_volume = 0.4f;
   const auto relative_id  = (m_observer_pos - m_source_pos).normalize();
   const auto relative_vel = std::min(Vector<float, 2>::dot(relative_id, m_source_vel),
                                      sound_speed - std::numeric_limits<float>::epsilon());

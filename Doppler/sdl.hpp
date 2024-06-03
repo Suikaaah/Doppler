@@ -20,7 +20,6 @@ private:
   Timer         m_timer_tick{100}, m_timer_event{1'000'000 / 240};
 
   void cleanup() noexcept;
-  void move(SDL& other) noexcept;
 
 public:
   static constexpr auto resolution = Vector(1600, 900);
@@ -35,7 +34,6 @@ public:
   void run(const std::function<void(SDL&)>& impl);
   constexpr SDL_Window& get_window() noexcept { return *m_window; }
   constexpr SDL_Renderer& get_renderer() noexcept { return *m_renderer; }
-  //constexpr Timer& get_timer() noexcept { return m_timer; }
 
   void draw_text(const Font& font, std::string_view text, const Vector<int, 2>& pos, const Vector<Uint8, 4>& color);
   void draw_rect(const Vector<int, 2>& pos, const Vector<int, 2>& dim, const Vector<Uint8, 4>& color);
