@@ -43,8 +43,8 @@ void Engine::draw_components() {
 
   const auto& ps     = get_ps();
   const auto  ffr    = ps.get_ff() / static_cast<float>(PlaybackState::max_ff);
-  const auto  length = (m_mouse_pos.convert<float>() - m_source_pos).length() * 0.3f;
-  const auto  cl     = static_cast<Uint8>(std::clamp(static_cast<int>(length), 0, 0xFF));
+  const auto  length = (m_mouse_pos.convert<float>() - m_source_pos).length();
+  const auto  cl     = static_cast<Uint8>(std::clamp(static_cast<int>(length * 0.3f), 0, 0xFF));
   const auto  rg     = rgb(cl, 0xFF - cl, 0);
   m_sdl.draw_rect(Vector(0, 0)       , Vector<int, 2>(ffr                      * SDL::resolution[0], font_pts), rgb(127, 31, 31));
   m_sdl.draw_rect(Vector(0, font_pts), Vector<int, 2>(ps.get_progress<float>() * SDL::resolution[0], font_pts), rgb(31 , 96, 96));

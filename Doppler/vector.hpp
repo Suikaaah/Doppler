@@ -81,6 +81,7 @@ struct Vector {
 };
 
 template <class... Args>
+requires (all_same<Args...>)
 Vector(Args...) -> Vector<typename Head<Args...>::type, sizeof...(Args)>;
 
 constexpr auto rgb(Uint8 r, Uint8 g, Uint8 b) noexcept {
