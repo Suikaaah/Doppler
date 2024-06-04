@@ -4,7 +4,9 @@
 
 class Timer {
 private:
-  using Clock = std::chrono::high_resolution_clock;
+  using Clock     = std::chrono::high_resolution_clock;
+  using Precision = std::chrono::microseconds;
+  using Unit      = std::chrono::milliseconds;
 
   Clock::time_point m_ref, m_sleep_until;
   int               m_delay{1000};
@@ -15,6 +17,7 @@ public:
   void set_delay(int delay) noexcept;
   void update();
   void sleep() const;
+  Precision delta_duration() const;
   bool is_expired() const;
 
   template <class Callable>
@@ -27,8 +30,8 @@ public:
 
   template <class T>
   auto delta() const {
-    const auto micro_sec = std::chrono::duration_cast<std::chrono::microseconds>(
-      Clock::now() - m_ref).count();
-    return static_cast<T>(static_cast<double>(micro_sec) * 1.0e-6);
+    return static_cast<T>(
+      static_cast<double>(delta_duration().count()) * Precision::period::num / Precision::period::den
+    );
   }
 };
