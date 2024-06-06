@@ -34,7 +34,8 @@ private:
   void play_and_pop();
   void draw_components();
   void process_inputs();
-  void update();
+  void update_physics();
+  void update_frame();
 
 public:
   void run();

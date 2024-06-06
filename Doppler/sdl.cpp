@@ -66,30 +66,6 @@ SDL::~SDL() noexcept {
   cleanup();
 }
 
-void SDL::run(const std::function<void(SDL&)>& impl) {
-  for (bool running = true; running; ) {
-    m_timer_tick.update();
-
-    m_timer_event.if_expired([&running]{
-      SDL_Event event;
-      while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_QUIT:
-          running = false;
-          break;
-
-        default:
-          break;
-        }
-      }
-    });
-
-    impl(*this);
-
-    m_timer_tick.sleep();
-  }
-}
-
 void SDL::draw_text(const Font& font, std::string_view text, const Vector<int, 2>& pos, const Vector<Uint8, 4>& color) {
   const SDL_Color sdl_color{ color[0], color[1], color[2], color[3] };
   auto text_surface = TTF_RenderText_Blended(font.get_font(), text.data(), sdl_color);

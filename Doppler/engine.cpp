@@ -84,10 +84,12 @@ void Engine::process_inputs() {
   }
 }
 
-void Engine::update() {
+void Engine::update_physics() {
   auto& ps = get_ps();
 
-  m_source_acc =  Vector(0.0f, gravity) + pull_force * (m_mouse_pos.convert<float>() - m_source_pos) - source_damper * m_source_vel;
+  m_source_acc = Vector(0.0f, gravity) + pull_force
+               * (m_mouse_pos.convert<float>() - m_source_pos)
+               - source_damper * m_source_vel;
   m_source_vel += m_source_acc;
   m_source_pos += m_source_vel;
   const auto relative_id  = (m_observer_pos - m_source_pos).normalize();
@@ -100,23 +102,23 @@ void Engine::update() {
   ps.set_volume(std::min(volume, 1.0f) * max_volume);
 }
 
+void Engine::update_frame() {
+  process_inputs();
+
+  auto& renderer = m_sdl.get_renderer();
+  SDL_SetRenderDrawColor(&renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+  SDL_RenderClear(&renderer);
+  draw_components();
+  SDL_RenderPresent(&renderer);
+}
+
 void Engine::run() {
   if (!m_font.load("arial.ttf", font_pts)) {
     return;
   }
 
-  const auto impl = [this](SDL& sdl) {
-    update();
-
-    m_timer_draw.if_expired([this, &sdl]{
-      process_inputs();
-      auto& renderer = sdl.get_renderer();
-      SDL_SetRenderDrawColor(&renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-      SDL_RenderClear(&renderer);
-      draw_components();
-      SDL_RenderPresent(&renderer);
-    });
-  };
-
-  m_sdl.run(impl);
+  m_sdl.run([this]{
+    update_physics();
+    m_timer_draw.if_expired([this]{ update_frame(); });
+  });
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "vector.hpp"
@@ -31,7 +30,24 @@ public:
   SDL& operator=(SDL&& other) noexcept;
   ~SDL() noexcept;
 
-  void run(const std::function<void(SDL&)>& impl);
+  template <class Callable>
+  void run(Callable&& impl) {
+    for (bool running = true; running; ) {
+      m_timer_tick.update();
+      m_timer_event.if_expired([&running]{
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+          if (event.type == SDL_QUIT) {
+            running = false;
+          }
+        }
+      });
+
+      impl();
+      m_timer_tick.sleep();
+    }
+  }
+
   constexpr SDL_Window& get_window() noexcept { return *m_window; }
   constexpr SDL_Renderer& get_renderer() noexcept { return *m_renderer; }
 
