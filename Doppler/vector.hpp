@@ -9,9 +9,9 @@
   (std::index_sequence<Seq...>){ x }(std::make_index_sequence<N>{});
 
 template <class T, std::size_t N>
-requires (std::is_arithmetic_v<T>)
+requires std::is_arithmetic_v<T>
 struct Vector {
-  std::array<T, N> data{};
+  std::array<T, N> data;
 
   constexpr Vector() noexcept = default;
 
@@ -81,7 +81,7 @@ struct Vector {
 };
 
 template <class... Args>
-requires (all_same<Args...>)
+requires all_same<Args...>
 Vector(Args...) -> Vector<typename Head<Args...>::type, sizeof...(Args)>;
 
 constexpr auto rgb(Uint8 r, Uint8 g, Uint8 b) noexcept {

@@ -4,9 +4,9 @@
 
 class Timer {
 private:
-  using Clock     = std::chrono::high_resolution_clock;
+  using Clock     = std::chrono::steady_clock;
   using Precision = std::chrono::microseconds;
-  using Unit      = std::chrono::milliseconds;
+  using Unit      = std::chrono::microseconds;
 
   Clock::time_point m_ref, m_sleep_until;
   int               m_delay{1000};

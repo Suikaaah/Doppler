@@ -22,7 +22,7 @@ private:
   void cleanup() noexcept;
 
 public:
-  static constexpr std::size_t base_chunk_size = 256;
+  static constexpr std::size_t base_chunk_size = 0x100;
   static constexpr std::size_t max_ff          = 4;
   static constexpr std::size_t chunk_size      = base_chunk_size * max_ff;
 
@@ -55,7 +55,7 @@ public:
   constexpr auto& get_volume_b() const noexcept { return m_params.volume_b; }
 
   template <class T>
-  requires (std::is_floating_point_v<T>)
+  requires std::is_floating_point_v<T>
   constexpr auto get_progress() const noexcept {
     return m_params.opened ? static_cast<T>(m_params.position) / static_cast<T>(get_samples()) : T{};
   }

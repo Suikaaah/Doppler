@@ -16,7 +16,7 @@ private:
   bool          m_ttf_inited{};
   SDL_Window*   m_window{};
   SDL_Renderer* m_renderer{};
-  Timer         m_timer_tick{1}, m_timer_event{3};
+  Timer         m_timer_tick{1000}, m_timer_event{3500};
 
   void cleanup() noexcept;
 

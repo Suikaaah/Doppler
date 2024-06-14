@@ -27,7 +27,7 @@ private:
   Vector<int, 2>           m_mouse_pos{ SDL::resolution / 2 };
   Bistate<bool>            m_space;
   std::stack<std::string>  m_files;
-  Timer                    m_timer_draw{3};
+  Timer                    m_timer_draw{3500};
 
   constexpr auto& get_ps() noexcept { return m_audio.get_ps(); }
   void load_files(std::string_view dir);
