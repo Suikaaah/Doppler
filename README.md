@@ -1,9 +1,6 @@
 # Doppler
 Simulates doppler effect.
 
-Video:
-[![Sample Text](http://i3.ytimg.com/vi/lK04CeE-8mk/hqdefault.jpg)](https://youtu.be/lK04CeE-8mk)
-
 ## Build (The worst instruction ever)
 Include: minimp3, SDL2 and SDL2_ttf
 
